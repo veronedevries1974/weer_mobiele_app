@@ -1,0 +1,17 @@
+<div class="top-bar-wrapper" style="display: flex; align-items: center; justify-content: space-between; width: 100%; box-sizing: border-box; padding: 10px 20px; background-color: #556b2f; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+  <div class="logo">
+    <h2 style="color: #fefefa; margin: 0; font-family: sans-serif;">🌤️ WeerApp</h2>
+  </div>
+  <form #searchForm="ngForm" (ngSubmit)="search(searchForm)" novalidate style="margin: 0;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <mat-form-field appearance="outline" style="width: 240px; --mat-sys-color-primary: white;">
+        <mat-label style="color: rgba(255,255,255,0.8);">Zoek een locatie</mat-label>
+        <input matInput name="locationInput" [(ngModel)]="loc" required style="color: white;">
+      </mat-form-field>
+      <button mat-flat-button type="submit" [disabled]="searchForm.invalid" style="height: 56px; background-color: #2c3e50; color: white;">Zoeken</button>
+    </div>
+  </form>
+  <div style="color: white; font-size: 0.95rem;">
+    <p *ngIf="location$ | async as actieve" style="margin: 0;">Huidige selectie: <strong>{{ actieve }}</strong></p>
+  </div>
+</div>

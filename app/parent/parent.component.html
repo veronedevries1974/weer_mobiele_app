@@ -1,0 +1,51 @@
+<div class="page-content" style="padding: 20px;">
+  <div class="main-container" style="max-width: 1200px; margin: 0 auto;"> 
+
+    <div *ngIf="!(loc$ | async)" style="text-align: center; padding: 40px 0;"> 
+      <mat-card><mat-card-content style="display: block !important; padding: 40px 20px;">
+        <h1 style="color: #2c3e50; font-weight: bold; margin-bottom: 10px;">🌤️ Welkom bij de WeerApp</h1>
+        <p style="color: #7f8c8d;">Voer hierboven in de balk een locatie in om de weersinformatie te starten.</p>
+      </mat-card-content></mat-card>
+    </div> 
+
+    <div *ngIf="loc$ | async as actieveLocatie">
+      <div style="text-align: center; margin-bottom: 25px;">
+        <h1 style="font-size: 2.2rem; font-weight: 800; color: #2c3e50;">Weer Dashboard voor {{ actieveLocatie }}</h1>
+      </div>
+
+      <ion-segment style="margin-bottom: 20px; background: #f8f9fa; border-radius: 8px;">
+        <ion-segment-button routerLink="child1" routerLinkActive="segment-button-checked" style="--color-checked: #556b2f;">
+          <ion-label style="font-weight: bold;">Huidig weer</ion-label>
+        </ion-segment-button>
+        <ion-segment-button routerLink="child2" routerLinkActive="segment-button-checked" style="--color-checked: #556b2f;">
+          <ion-label style="font-weight: bold;">Toekomstig weer</ion-label>
+         </ion-segment-button>
+        <ion-segment-button routerLink="child3" routerLinkActive="segment-button-checked" style="--color-checked: #556b2f;">
+          <ion-label style="font-weight: bold;">UV-index</ion-label>
+        </ion-segment-button>
+        <ion-segment-button routerLink="child4" routerLinkActive="segment-button-checked" style="--color-checked: #556b2f;">
+          <ion-label style="font-weight: bold;">Signalen</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <div style="margin-bottom: 30px;">
+        <ion-router-outlet></ion-router-outlet>
+      </div>
+    </div>
+
+    <mat-card style="margin-top: 30px;">
+      <mat-card-header><mat-card-title>Laatste signaal uit ChildService</mat-card-title></mat-card-header>
+      <mat-card-content style="text-align: center; display: block !important; padding: 20px;">
+        <h2 *ngIf="invoer$ | async as recentBericht; else geenBericht">Ontvangen tekst: <strong style="color: #556b2f;">"{{ recentBericht }}"</strong></h2>
+        <ng-template #geenBericht><p style="color: #7f8c8d; font-style: italic;">Nog geen handmatige invoer verzonden.</p></ng-template>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #e2e8f0;">
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <span *ngFor="let item of invoerWaarde$ | async" (click)="onChildInvoerDeleted(item)" style="cursor: pointer; padding: 8px 16px; font-size: 0.85rem; font-weight: bold; background-color: #ffebee; color: #c62828; border-radius: 20px;">
+            {{ item }} ✕
+          </span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

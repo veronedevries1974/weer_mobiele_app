@@ -1,0 +1,77 @@
+<div class="child-container">
+  <h4>Berichten & Signalen (Child 4)</h4>
+
+  <!-- 1. Kaart voor het allerlaatste binnengekomen signaal -->
+  <mat-card *ngIf="laatsteBericht$ | async as laatste" style="margin-bottom: 20px; border-left: 5px solid darkolivegreen;">
+    <mat-card-content style="display: block !important; padding: 15px 20px;">
+      <p style="margin: 0; font-size: 1.05rem; color: #2c3e50;">
+        <strong>Laatste signaal:</strong> 
+        <span style="color: #556b2f; font-weight: bold; margin-left: 5px;">"{{ laatste }}"</span>
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- 2. Kaart voor de totale verzamelde lijst -->
+  <mat-card style="margin-bottom: 25px;">
+    <mat-card-header>
+      <mat-card-title>Ontvangen Berichtenlijst</mat-card-title>
+    </mat-card-header>
+
+    <!-- display: block zorgt ervoor dat de lijst niet breekt door de algemene flexbox opmaak -->
+    <mat-card-content style="display: block !important; padding: 10px 20px 20px 20px;">
+      
+      <!-- Tonen wanneer de lijst leeg is -->
+      <div *ngIf="(berichtenLijst$ | async)?.length === 0" style="color: #7f8c8d; font-style: italic; padding: 15px 0; text-align: center;">
+        Nog geen berichten in de centrale lijst. Typ iets in Child 1, 2 of 3!
+      </div>
+
+      <!-- Gestylde tabel-achtige opzet met hergebruik van de weather-table structuur -->
+      <table class="weather-table" *ngIf="(berichtenLijst$ | async)?.length !== 0">
+        <tbody>
+          <tr *ngFor="let bericht of berichtenLijst$ | async">
+            <td style="font-weight: 600; color: #2c3e50; text-align: left; vertical-align: middle;">
+              {{ bericht }}
+            </td>
+            <td style="text-align: right; width: 120px; padding: 6px 0;">
+              <!-- Material knop om specifiek dit item te wissen -->
+              <button 
+                mat-flat-button 
+                color="warn" 
+                (click)="verwijderBericht(bericht)" 
+                style="height: 36px; font-weight: bold;">
+                Verwijder
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </mat-card-content>
+  </mat-card>
+
+  <!-- 3. Invoersectie van Child 4 conform jouw unieke CSS lay-out -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Nieuw bericht toevoegen</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Invoer voor Child Service</mat-label>
+        <input 
+          matInput 
+          [(ngModel)]="ChildInvoerModel" 
+          placeholder="Typ iets..."
+          (keyup.enter)="onChildInvoer()">
+      </mat-form-field>
+      
+      <button 
+        mat-raised-button 
+        color="primary"
+        (click)="onChildInvoer()"
+        [disabled]="!ChildInvoerModel.trim()">
+        Versturen
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>

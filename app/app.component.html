@@ -1,0 +1,19 @@
+<ion-app>
+  <div class="app-container">
+    <div class="topbar-section">
+      <app-topbar></app-topbar>
+    </div>
+    <div class="navigation-section"> 
+      <ul> 
+        <li><a routerLink="/child1" routerLinkActive="active-link">Huidig weer</a></li> 
+        <li><a routerLink="/child2" routerLinkActive="active-link">Toekomstig weer</a></li>
+        <li><a routerLink="/child3" routerLinkActive="active-link">UV-score</a></li> 
+        <li><a routerLink="/child4" routerLinkActive="active-link">Pagina</a></li>
+      </ul>
+    </div>
+    <div class="main-content-section">
+      <ion-router-outlet></ion-router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </div>
+</ion-app>

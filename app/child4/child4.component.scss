@@ -1,0 +1,56 @@
+/* --- PAGINA CONTAINER --- */
+.page-content {
+  display: block;
+  width: 100%;
+}
+
+/* --- TITEL MET EXTRA RUIMTE --- */
+h4 {
+  color: #2c3e50;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --- LOGBOEK LIJST STYLING --- */
+ul {
+  li {
+    transition: background-color 0.2s ease;
+    
+    // Zorgt ervoor dat de laatste regel geen overbodige streep krijgt
+    &:last-child {
+      border-bottom: none !important;
+    }
+
+    // Geeft een subtiel effect als je over een logbericht heen zweeft
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+  }
+}
+
+/* --- FLEXIBELE UITLIJNING VAN HET INVOERFORMULIER --- */
+// Wordt alleen toegepast op de invoerkaart, niet op de berichtenlijst
+mat-card:last-of-type mat-card-content {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding-top: 10px;
+}
+
+/* Zorg dat het invoerveld de ruimte flexibel opvult */
+mat-form-field {
+  flex: 1;
+  min-width: 240px;
+}
+
+/* Match de hoogte van de olijfgroene verzendknop met het invoerveld */
+button[mat-raised-button] {
+  height: 56px; // Matcht exact de hoogte van een appearance="outline" input
+  padding: 0 25px;
+  font-weight: bold;
+}

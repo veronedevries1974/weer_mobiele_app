@@ -1,0 +1,55 @@
+/* --- HOOFD LAYOUT VAN DE APPLICATIE --- */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: lightgoldenrodyellow;
+}
+
+/* --- SECTIE OVERGANGEN (OLIJFGROEN) --- */
+.topbar-section {
+  background-color: darkolivegreen;
+  padding: 10px;
+}
+
+.navigation-section {
+  background-color: darkolivegreen;
+  padding: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+
+    li {
+      a {
+        color: lightgoldenrodyellow;
+        text-decoration: none;
+        font-weight: bold;
+        padding-bottom: 4px;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+/* --- HOOFDINHOUD EN ROUTER-OUTLET --- */
+.main-content-section {
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* --- RECENT ACTIEVE MENULINK INDICATOR --- */
+.active-link {
+  border-bottom: 2px solid lightgoldenrodyellow;
+  color: white !important;
+}
