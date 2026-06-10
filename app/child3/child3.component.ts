@@ -1,10 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'; 
-import { Subscription } from 'rxjs'; 
+import { Component, OnInit } from '@angular/core'; 
 import { Store } from '@ngrx/store'; 
+import { Observable, of } from 'rxjs';
+import { filter, switchMap, map, catchError, tap, distinctUntilChanged } from 'rxjs/operators';
 import { WeatherService } from '../weather.service';
 import { ChildService } from '../child.service'; 
-import { selectLocationState } from '../location-reducer'; 
-import { CommonModule } from '@angular/common'; 
+import { selectCity } from '../location-reducer';
+
+// Angular Core, Pipes & Materials Imports (Essentieel voor standalone)
+import { CommonModule, AsyncPipe, DecimalPipe, DatePipe } from '@angular/common'; 
 import { MatCardModule } from '@angular/material/card'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,65 +17,70 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-child3',
   templateUrl: './child3.component.html', 
+  styleUrls: ['./child3.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule]
+  imports: [
+    CommonModule, 
+    AsyncPipe, 
+    DecimalPipe, 
+    DatePipe, 
+    MatCardModule, 
+    MatFormFieldModule, 
+    MatInputModule, 
+    MatButtonModule, 
+    FormsModule
+  ]
 })
-export class Child3Component implements OnInit, OnDestroy { 
-  ChildInvoerModel: string = '';
-  private storeSub!: Subscription; 
-  private weatherSub!: Subscription;
-  loc: string = ''; 
-  cityName: string = '';
-  uv: any[] = []; 
-  msg: string = '';
+export class Child3Component implements OnInit { 
+  // Al deze variabelen moeten exact zo overgenomen worden voor de HTML-koppeling
+  public ChildInvoerModel: string = '';
+  public uvData$: Observable<{ cityName: string; list: any[]; msg: string }> | undefined;
+  public loc$: Observable<string>; 
+  public actieveStad: string = '';
 
-  constructor(private childService: ChildService, private weatherService: WeatherService, private store: Store) { }
+  constructor(
+    private childService: ChildService, 
+    private weatherService: WeatherService, 
+    private store: Store
+  ) { 
+    // GEFIXED: Koppel loc$ direct aan de store-selector
+    this.loc$ = this.store.select(selectCity);
+  }
 
   ngOnInit(): void {
-    this.storeSub = this.store.select(selectLocationState).subscribe({
-      next: (loc: string) => { 
-        this.loc = loc; 
-        if (loc && loc.trim() !== '') { this.getUvData(loc); } 
-        else { this.uv = []; this.cityName = ''; this.msg = 'Voer een locatie in.'; }
-      }
-    });
+    // GEFIXED: Hier wordt uvData$ opgebouwd en gevuld met cityName, list en msg
+    this.uvData$ = this.loc$.pipe(
+      filter(city => !!city && city.trim() !== ''),
+      distinctUntilChanged(),
+      tap(city => this.actieveStad = city),
+      switchMap(city => 
+        this.weatherService.getCompleteWeather(city).pipe(
+          map(res => {
+            let list: any[] = [];
+            if (res.daily && res.daily.uv_index_max) {
+              list = res.daily.time.map((timeStr: string, index: number) => ({
+                date_iso: new Date(timeStr),
+                value: res.daily.uv_index_max[index]
+              }));
+            }
+            return { cityName: res.name ?? city, list, msg: '' };
+          }),
+          catchError(() => of({ cityName: city, list: [], msg: 'Kon UV-gegevens niet ophalen.' }))
+        )
+      )
+    );
   }
 
-  getUvData(loc: string): void { 
-    this.msg = ''; this.uv = []; 
-    if (this.weatherSub) this.weatherSub.unsubscribe();
-
-    this.weatherSub = this.weatherService.getCompleteWeather(loc).subscribe({
-      next: (res: any) => { 
-        this.cityName = res.name ?? loc;
-        if (res.daily && res.daily.uv_index_max) {
-          this.uv = res.daily.time.map((timeStr: string, index: number) => ({
-            date_iso: new Date(timeStr),
-            value: res.daily.uv_index_max[index]
-          }));
-        }
-      },
-      error: () => this.msg = 'Kon UV-gegevens niet ophalen.'
-    });
+  public getBadgeClass(value: number): string {
+    if (value <= 2) return 'badge-success';
+    if (value > 2 && value <= 5) return 'badge-warning';
+    return 'badge-danger';
   }
 
-  getBadgeClass(value: number): string {
-    return value >= 3 ? 'badge-danger' : 'badge-success';
-  }
-
-  resultFound(): boolean { 
-    return this.uv && this.uv.length > 0; 
-  }
-
-  onChildInvoer(): void { 
+  public onChildInvoer(): void { 
     if (this.ChildInvoerModel.trim()) {
       this.childService.onChildInvoerCreated(this.ChildInvoerModel);
       this.ChildInvoerModel = '';
     }
-  }
-
-  ngOnDestroy(): void {
-    if (this.storeSub) this.storeSub.unsubscribe();
-    if (this.weatherSub) this.weatherSub.unsubscribe();
   }
 }

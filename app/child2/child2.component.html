@@ -1,38 +1,77 @@
 <div class="child-container">
-  <h4>Toekomstig weer</h4>
-  <div *ngIf="resultFound()" style="margin-bottom: 25px;"> 
-    <mat-card>
-      <mat-card-content style="display: block !important; padding: 10px 20px;">
-        <table class="weather-table"> 
+  
+  <!-- 1. Weerdata Tabel via de asynchrone forecastData$ stream -->
+  <div *ngIf="forecastData$ | async as data; else loading" class="forecast-wrapper"> 
+    
+    <!-- Wordt getoond als er een geldige voorspellingslijst is -->
+    <mat-card *ngIf="data.list && data.list.length > 0">
+      <mat-card-header>
+        <mat-card-title>7-daagse voorspelling voor {{ data.cityName }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="table-card-content">
+        <table class="weather-table intermediate-forecast-table"> 
           <thead>
-            <tr style="border-bottom: 2px solid #2c3e50; text-align: left;">
-              <th style="padding: 12px 4px;">Datum</th>
-              <th style="padding: 12px 4px;">Min / Max temp</th>
-              <th style="padding: 12px 4px;">Zon (Op / Onder)</th>
-              <th style="padding: 12px 4px; text-align: right;">UV</th>
+            <tr class="table-header-row">
+              <th class="text-left">Datum</th>
+              <th>Min / Max temp</th>
+              <th>Zon (Op / Onder)</th>
+              <th class="text-right">UV</th>
             </tr>
           </thead>
           <tbody> 
-            <tr *ngFor="let day of forecastList">
-              <td><strong>{{ day.date | date:'EEEE d MMMM' }}</strong></td>
+            <tr *ngFor="let day of data.list">
+              <td class="text-left"><strong>{{ day.date | date:'EEEE d MMMM' }}</strong></td>
               <td>{{ day.temp_min | number:'1.0-0' }}°C / {{ day.temp_max | number:'1.0-0' }}°C</td>
-              <td><span *ngIf="day.sunrise">🌅 {{ day.sunrise | date:'HH:mm' }} | 🌇 {{ day.sunset | date:'HH:mm' }}</span></td>
-              <td style="text-align: right;">{{ day.uv ?? '-' }}</td>
+              <td>
+                <span *ngIf="day.sunrise">
+                  🌅 {{ day.sunrise | date:'HH:mm' }} | 🌇 {{ day.sunset | date:'HH:mm' }}
+                </span>
+              </td>
+              <td class="text-right">
+                <span [ngClass]="{'badge-success': day.uv <= 2, 'badge-warning': day.uv > 2 && day.uv <= 5, 'badge-danger': day.uv > 5}">
+                  {{ day.uv ?? '-' }}
+                </span>
+              </td>
             </tr>
           </tbody> 
         </table> 
       </mat-card-content>
     </mat-card>
+
+    <!-- Foutmelding indien de API faalt -->
+    <mat-card *ngIf="data.msg || data.list.length === 0">
+      <mat-card-content class="error-message">
+        {{ data.msg || 'Geen weersgegevens beschikbaar.' }}
+      </mat-card-content>
+    </mat-card>
   </div> 
-  <div *ngIf="!resultFound()" style="margin-bottom: 25px;"> 
-    <mat-card><mat-card-content style="display: block !important; text-align: center; color: #7f8c8d;">{{ msg }}</mat-card-content></mat-card>
-  </div>
-  <mat-card>
-    <mat-card-header><mat-card-title>Signaal versturen vanaf Toekomstig Weer</mat-card-title></mat-card-header>
-    <mat-card-content>
+
+  <!-- 2. Universele Loading Template -->
+  <ng-template #loading>
+    <mat-card class="loading-card">
+      <mat-card-content>
+        Weergegevens ophalen voor <strong>{{ loc$ | async }}</strong>...
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+
+  <!-- 3. Invoersectie (Signaal versturen) -->
+  <mat-card class="input-card">
+    <mat-card-header>
+      <mat-card-title>Signaal versturen vanaf Toekomstig Weer</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="form-card-content">
       <mat-form-field appearance="outline">
         <mat-label>Invoer voor Child Service</mat-label>
-        <input matInput [(ngModel)]="ChildInvoerModel" (keyup.enter)="onChildInvoer()">
+        <input 
+          matInput 
+          id="c2Input"
+          title="Bericht invoerveld voor Child 2"
+          name="c2Input"
+          [(ngModel)]="ChildInvoerModel" 
+          [ngModelOptions]="{standalone: true}"
+          placeholder="Typ iets..."
+          (keyup.enter)="onChildInvoer()">
       </mat-form-field>
       <button mat-raised-button color="primary" (click)="onChildInvoer()" [disabled]="!ChildInvoerModel.trim()">Versturen</button>
     </mat-card-content>

@@ -1,60 +1,6 @@
-/* Hoofdcontainer van het weer-dashboard met ademruimte aan de zijkanten */
-.main-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 15px;
-}
-
-/* Grote, dikke titel voor de actieve stadsnaam */
-.location-header h1 {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #2c3e50;
-  margin-top: 10px;
-  margin-bottom: 25px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-/* Moderne styling voor de Ionic Segment balk (de tabbladen) */
-ion-segment {
-  background: #ffffff !important;
-  border-radius: 12px !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
-  margin-bottom: 20px;
-  padding: 4px;
-  border: 1px solid #f0f3f4;
-}
-
-/* Styling voor de losse tab-knoppen (Aangepast aan jouw kleurenthema) */
-ion-segment-button {
-  --color: #555555;                 /* Standaard tekstkleur */
-  --color-checked: darkolivegreen;  /* Kleur van de geselecteerde tekst */
-  --indicator-color: rgba(85, 107, 47, 0.15); /* Zachte olijfgroene achtergrond voor de actieve tab */
-  font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.2s ease-in-out;
-}
-
-/* Subtiel effect wanneer je over een tab-knop zweeft */
-ion-segment-button:hover {
-  --color: #2c3e50;
-}
-
-/* Klikbare badges onderaan het scherm (de berichtenlijst) */
-ion-badge {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  font-weight: bold;
-}
-
-/* Visuele feedback als de gebruiker met de muis over een badge zwaait om te wissen */
-ion-badge:hover {
-  transform: scale(1.08);
-  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
-}
-
-/* Scheidingslijn binnen de berichtenkaart */
-hr {
-  margin: 20px 0;
-  border: 0;
-  border-top: 1px solid #eaeded;
-}
+.main-container { max-width: 900px; margin: 0 auto; padding: 15px; width: 100%; box-sizing: border-box; }
+.welcome-section { text-align: center; padding: 20px 0; .welcome-content { display: block !important; padding: 40px 20px !important; h1 { color: #2c3e50; font-weight: bold; } p { color: #7f8c8d; } } }
+.location-header { text-align: center; margin-bottom: 25px; h1 { font-size: 2.2rem; font-weight: 800; color: #2c3e50; margin: 0; } }
+ion-segment { margin-bottom: 20px; background: #ffffff !important; border-radius: 12px !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important; padding: 4px; border: 1px solid #f0f3f4; }
+ion-segment-button { --color: #555555; --color-checked: darkolivegreen; --indicator-color: rgba(85, 107, 47, 0.15); font-weight: 600; }
+.signals-card { margin-top: 20px; .signals-content { text-align: center; display: block !important; padding: 20px !important; h2 { margin: 0; strong { color: darkolivegreen; } } .placeholder-text { color: #7f8c8d; font-style: italic; } hr { margin: 20px 0; border: 0; border-top: 1px solid #e2e8f0; } .badge-container { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; .custom-badge-btn { border: none; cursor: pointer; padding: 8px 16px; font-size: 0.85rem; font-weight: bold; border-radius: 20px; transition: transform 0.2s ease; &:hover { transform: scale(1.05); } } } } }

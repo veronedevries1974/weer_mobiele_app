@@ -1,32 +1,52 @@
 <div class="child-container">
-  <h4>Huidig weer</h4>
-  <div *ngIf="weatherData$ | async as data; else loadingOrError" style="margin-bottom: 25px;">
+  
+  <!-- 1. Weerdata Tabel -->
+  <div *ngIf="weatherData$ | async as data; else loadingOrError" class="forecast-wrapper">
     <mat-card>
-      <mat-card-header><mat-card-title>Actuele weersituatie voor {{ actieveStad }}</mat-card-title></mat-card-header>
-      <mat-card-content style="display: block !important; padding: 15px 20px;">
+      <mat-card-header>
+        <mat-card-title>Actuele weersituatie voor {{ data.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="table-card-content">
         <table class="weather-table"> 
           <tbody> 
-            <tr><td><strong>Huidige temperatuur</strong></td><td>{{ data.current?.temperature | number:'1.0-0' }}<sup>o</sup>C</td></tr> 
+            <tr><td><strong>Huidige temperatuur</strong></td><td>{{ data.current?.temperature | number:'1.0-0' }}°C</td></tr> 
             <tr><td><strong>Windsnelheid</strong></td><td>{{ data.current?.windspeed }} km/h</td></tr> 
-            <tr><td><strong>Windrichting</strong></td><td>{{ data.current?.winddirection }}<sup>o</sup></td></tr> 
-            <tr><td><strong>Maximum (Vandaag)</strong></td><td>{{ data.daily?.temperature_2m_max[0] | number:'1.0-0' }}<sup>o</sup>C</td></tr> 
-            <tr><td><strong>Minimum (Vandaag)</strong></td><td>{{ data.daily?.temperature_2m_min[0] | number:'1.0-0' }}<sup>o</sup>C</td></tr> 
-            <tr><td><strong>Zonsopgang</strong></td><td>{{ data.daily?.sunrise[0] | date:'HH:mm' }} uur</td></tr> 
-            <tr><td><strong>Zonsondergang</strong></td><td>{{ data.daily?.sunset[0] | date:'HH:mm' }} uur</td></tr> 
+            <tr><td><strong>Windrichting</strong></td><td>{{ data.current?.winddirection }}°</td></tr> 
+            <tr><td><strong>Maximum (Vandaag)</strong></td><td>{{ data.daily?.temperature_2m_max[0] | number:'1.0-0' }}°C</td></tr> 
+            <tr><td><strong>Minimum (Vandaag)</strong></td><td>{{ data.daily?.temperature_2m_min[0] | number:'1.0-0' }}°C</td></tr> 
+            <tr><td><strong>Zonsopgang</strong></td><td>{{ parseDate(data.daily?.sunrise[0]) | date:'HH:mm' }} uur</td></tr> 
+            <tr><td><strong>Zonsondergang</strong></td><td>{{ parseDate(data.daily?.sunset[0]) | date:'HH:mm' }} uur</td></tr> 
           </tbody> 
         </table> 
       </mat-card-content>
     </mat-card>
   </div>
+
+  <!-- 2. Loading Template -->
   <ng-template #loadingOrError>
-    <mat-card style="margin-bottom: 25px;"><mat-card-content style="display: block !important; text-align: center; color: #7f8c8d;">Weergegevens ophalen...</mat-card-content></mat-card>
+    <mat-card class="loading-card">
+      <mat-card-content>
+        Weergegevens ophalen voor <strong>{{ loc$ | async }}</strong>...
+      </mat-card-content>
+    </mat-card>
   </ng-template>
-  <mat-card>
-    <mat-card-header><mat-card-title>Signaal of bericht versturen</mat-card-title></mat-card-header>
-    <mat-card-content>
+
+  <!-- 3. Signaal Invoerkaart -->
+  <mat-card class="input-card">
+    <mat-card-header>
+      <mat-card-title>Signaal of bericht versturen</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="form-card-content">
       <mat-form-field appearance="outline">
         <mat-label>Typ uw bericht...</mat-label>
-        <input matInput name="childLocationInput" [(ngModel)]="ChildInvoerModel" (keyup.enter)="onChildInvoer()">
+        <input 
+          matInput 
+          id="c1Input"
+          title="Bericht invoerveld voor Child 1"
+          name="c1Input" 
+          [(ngModel)]="ChildInvoerModel" 
+          [ngModelOptions]="{standalone: true}" 
+          (keyup.enter)="onChildInvoer()">
       </mat-form-field>
       <button mat-raised-button color="primary" (click)="onChildInvoer()" [disabled]="!ChildInvoerModel.trim()">Verstuur</button>
     </mat-card-content>

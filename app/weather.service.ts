@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, switchMap, map } from 'rxjs';
+import { Observable, switchMap, map, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,15 +8,19 @@ import { Observable, switchMap, map } from 'rxjs';
 export class WeatherService {
   constructor(private http: HttpClient) {}
 
-  getCompleteWeather(loc: string): Observable<any> {
+  public getCompleteWeather(loc: string): Observable<any> {
+    // GEFIXED: Let op de ` en de ${...} structuur
     const geoUrl = `https://open-meteo.com{encodeURIComponent(loc)}&count=1&language=nl`;
 
     return this.http.get<any>(geoUrl).pipe(
       switchMap((geoRes: any) => {
         if (!geoRes || !geoRes.results || geoRes.results.length === 0) {
-          throw new Error(`Locatie "${loc}" niet gevonden.`);
+          return throwError(() => new Error(`Locatie "${loc}" niet gevonden.`));
         }
+        
         const city = geoRes.results[0];
+        
+        // GEFIXED: Let op de ` en de ${...} structuur voor de breedte- en lengtegraad
         const weatherUrl = `https://open-meteo.com{city.latitude}&longitude=${city.longitude}&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&timezone=auto`;
 
         return this.http.get<any>(weatherUrl).pipe(

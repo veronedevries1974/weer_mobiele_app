@@ -12,9 +12,9 @@ export interface LocationState {
 }
 
 const initialState: LocationState = {
-  city: 'Amsterdam',
-  lat: 52.3676,
-  lon: 4.9041
+  city: '', // Begint leeg voor het welkomscherm
+  lat: 0,
+  lon: 0
 };
 
 export const locationReducer = createReducer(
@@ -24,7 +24,7 @@ export const locationReducer = createReducer(
 
 export const selectLocationFeature = createFeatureSelector<LocationState>('location');
 
-export const selectLocationState = createSelector(
+export const selectCity = createSelector(
   selectLocationFeature,
-  (state: LocationState) => state ? state.city : ''
+  (state: LocationState) => state?.city || ''
 );

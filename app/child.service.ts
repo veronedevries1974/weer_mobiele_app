@@ -1,35 +1,46 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, signal, computed } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChildService {
-  private invoerLijstSource = new BehaviorSubject<string[]>([]);
-  invoerLijst$: Observable<string[]> = this.invoerLijstSource.asObservable();
+  // 1. Private writeable signal voor het beheren van de interne staat
+  private invoerLijstSignal = signal<string[]>([]);
+  
+  // 2. Public read-only signals waar de componenten veilig naar kunnen luisteren
+  // In de HTML-templates roep je dit aan als een functie: berichtenLijst()
+  public invoerLijst = this.invoerLijstSignal.asReadonly();
+  
+  // 3. Gecalculeerde state: updateert zichzelf automatisch zodra de invoerLijst verandert
+  // In de HTML-templates roep je dit aan als een functie: laatsteBericht()
+  public laatsteInvoer = computed(() => {
+    const lijst = this.invoerLijstSignal();
+    return lijst.length > 0 ? lijst[lijst.length - 1] : '';
+  });
 
-  private laatsteInvoerSource = new BehaviorSubject<string>('');
-  laatsteInvoer$: Observable<string> = this.laatsteInvoerSource.asObservable();
-
-  onChildInvoerCreated(nieuweInvoer: string): void {
-    if (!nieuweInvoer || !nieuweInvoer.trim()) return;
-    const huidigeLijst = this.invoerLijstSource.getValue();
-    this.invoerLijstSource.next([...huidigeLijst, nieuweInvoer.trim()]);
-    this.laatsteInvoerSource.next(nieuweInvoer.trim());
+  /**
+   * Voegt een nieuw tekstsignaal of bericht toe aan de centrale lijst.
+   * Ongeacht vanaf welk tabblad (Child 1, 2, 3 of 4) dit wordt aangeroepen.
+   * @param nieuweInvoer De ingevoerde tekst string
+   */
+  public onChildInvoerCreated(nieuweInvoer: string): void {
+    const trimmed = nieuweInvoer?.trim();
+    
+    // Blokkeer lege invoer of invoer met alleen spaties
+    if (!trimmed) return;
+    
+    // Voeg de nieuwe string toe aan de array op een immutable (onveranderbare) manier
+    this.invoerLijstSignal.update(huidigeLijst => [...huidigeLijst, trimmed]);
   }
 
-  onChildInvoerDeleted(teVerwijderenItem: string): void {
-    const huidigeLijst = this.invoerLijstSource.getValue();
-    const opgeschoondeLijst = huidigeLijst.filter(item => item !== teVerwijderenItem);
-    this.invoerLijstSource.next(opgeschoondeLijst);
-    
-    const huidigLaatsteBericht = this.laatsteInvoerSource.getValue();
-    if (huidigLaatsteBericht === teVerwijderenItem) {
-      if (opgeschoondeLijst.length > 0) {
-        this.laatsteInvoerSource.next(opgeschoondeLijst[opgeschoondeLijst.length - 1]);
-      } else {
-        this.laatsteInvoerSource.next('');
-      }
-    }
+  /**
+   * Verwijdert een specifiek bericht uit de lijst op basis van zijn unieke positie (index).
+   * GEFIXED: Dit voorkomt dat bij identieke teksten (bijv. 2x "Zon") de hele lijst wordt gewist.
+   * @param indexTeVerwijderen De exacte indexpositie in de array (number)
+   */
+  public onChildInvoerDeleted(indexTeVerwijderen: number): void {
+    this.invoerLijstSignal.update(huidigeLijst => 
+      huidigeLijst.filter((_, index) => index !== indexTeVerwijderen)
+    );
   }
 }

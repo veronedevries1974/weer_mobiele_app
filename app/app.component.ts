@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; 
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { IonApp, IonRouterOutlet, IonContent } from '@ionic/angular/standalone';
 import { TopBarComponent } from './topbar/topbar.component';
 import { FooterComponent } from './footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss'],
+  template: `
+    <ion-app>
+      <app-topbar></app-topbar>
+      <ion-content>
+        <ion-router-outlet></ion-router-outlet>
+      </ion-content>
+      <app-footer></app-footer>
+    </ion-app>
+  `,
   standalone: true,
-  imports: [CommonModule, RouterModule, IonApp, IonRouterOutlet, TopBarComponent, FooterComponent]
+  imports: [CommonModule, IonApp, IonRouterOutlet, IonContent, TopBarComponent, FooterComponent]
 })
 export class AppComponent {}
