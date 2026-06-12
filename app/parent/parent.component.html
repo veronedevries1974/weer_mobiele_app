@@ -1,6 +1,6 @@
   <div class="main-container"> 
   
-  <!-- Welkomscherm (wanneer er nog GEEN stad is gekozen/gezocht) -->
+  <!-- Welkomscherm (wanneer er nog GEEN locatie is gezocht) -->
   <div *ngIf="!cityName()" class="welcome-section"> 
     <mat-card>
       <mat-card-content class="welcome-content">
@@ -10,32 +10,31 @@
     </mat-card>
   </div> 
 
-  <!-- Dashboard Container (wanneer er WEL een stad is gekozen) -->
+  <!-- Dashboard Container (Verschijnt in de body zodra de stad gekozen is) -->
   <div *ngIf="cityName()">
     <header class="location-header">
       <h1>Weer Dashboard voor {{ cityName() }}</h1>
     </header>
 
-    <!-- GECORRIGEERD: Ionic Segment Schakelaar gekoppeld aan de actieve router-status -->
+    <!-- GEPLAATST IN BODY: De menuknoppen schakelen direct tussen de subpagina's -->
     <ion-segment [value]="activeTab">
-      <ion-segment-button value="child1" routerLink="child1">
+      <ion-segment-button value="child1" routerLink="/child1">
         <ion-label>Huidig</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="child2" routerLink="child2">
+      <ion-segment-button value="child2" routerLink="/child2">
         <ion-label>Toekomst</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="child3" routerLink="child3">
+      <ion-segment-button value="child3" routerLink="/child3">
         <ion-label>UV-Score</ion-label>
       </ion-segment-button>
     </ion-segment>
 
-    <!-- Dynamische subpagina-outlet (Hier landen Child1, Child2 en Child3) -->
+    <!-- Subpagina router-outlet waar Child1, Child2 of Child3 in landen -->
     <main class="sub-page-outlet">
-      <!-- CRUCIAAL: Deze ion-router-outlet laadt de daadwerkelijke weerpagina's in -->
-      <ion-router-outlet></ion-router-outlet>
+      <router-outlet></router-outlet>
     </main>
 
-    <!-- Extra info card onderaan (gebaseerd op je .signals-card styling) -->
+    <!-- Extra info card onderaan -->
     <mat-card class="signals-card">
       <mat-card-content class="signals-content">
         <h2>Live updates voor <strong>{{ cityName() }}</strong></h2>

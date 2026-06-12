@@ -1,32 +1,19 @@
 <ion-app>
   <div class="app-container">
     
-    <!-- Topbar sectie -->
-    <header class="topbar-section">
+    <!-- Groene Topbar wrapper met het logo en de zoeklocatie-balk -->
+    <div class="topbar-section">
       <app-topbar></app-topbar>
-    </header>
+    </div>
     
-    <!-- Hoofdnavigatie (Slashes verwijderd voor correcte child-routing) -->
-    <nav class="navigation-section"> 
-      <ul> 
-        <li>
-          <a routerLink="child1" routerLinkActive="active-link">Huidig weer</a>
-        </li> 
-        <li>
-          <a routerLink="child2" routerLinkActive="active-link">Toekomstig weer</a>
-        </li>
-        <li>
-          <a routerLink="child3" routerLinkActive="active-link">UV-score</a>
-        </li>
-      </ul>
-    </nav>
+    <!-- VERWIJDERD: De navigatiebalk is hier weg, zodat de topbar rustig blijft -->
     
-    <!-- Dynamische hoofdcontent (Hier wordt ParentComponent ingeladen) -->
-    <main class="main-content-section">
+    <!-- Dynamische content sectie (Laadt direct de ParentComponent in) -->
+    <div class="main-content-section">
       <ion-router-outlet></ion-router-outlet>
-    </main>
+    </div>
     
-    <!-- Footer sectie met de juiste SCSS klasse koppeling -->
+    <!-- Footer onderaan de app -->
     <app-footer class="footer-section"></app-footer>
     
   </div>
