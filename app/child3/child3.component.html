@@ -1,89 +1,35 @@
 <div class="child-container">
-
-  <!-- GEFIXED: De async pipe opent de uvData$ stroom uit je TS bestand -->
+  
   <div *ngIf="uvData$ | async as data; else loading" class="uv-dashboard-wrapper">
-    
-    <!-- 1. Foutmelding tonen -->
-    <mat-card *ngIf="data.msg" class="uv-error-card">
-      <mat-card-content>
-        ⚠️ {{ data.msg }}
-      </mat-card-content>
-    </mat-card>
-
-    <!-- 2. De UV-data tonen -->
     <div *ngIf="data.list && data.list.length > 0">
-      <h2 class="grid-title">
-        7-Daagse UV-Index voor {{ data.cityName }}
-      </h2>
-
-      <!-- Jouw moderne Grid layout -->
+      <h2 class="grid-title">7-Daagse UV-Index voor {{ data.cityName }}</h2>
+      
       <div class="uv-grid">
         <mat-card *ngFor="let item of data.list" class="uv-day-card">
           <mat-card-header>
-            <mat-card-title class="card-date">
-              {{ item.date_iso | date:'EEEE d MMMM' }}
-            </mat-card-title>
+            <mat-card-title class="card-date">{{ item.date | date:'EEEE d MMMM' }}</mat-card-title>
           </mat-card-header>
-
+          
           <mat-card-content class="card-score-content">
             <div class="uv-score-display">
-              <h1 class="score-number">
-                {{ item.value | number:'1.0-1' }}
-              </h1>
+              <h1 class="score-number">{{ item.value | number:'1.0-1' }}</h1>
             </div>
-            
             <span [ngClass]="getBadgeClass(item.value)" class="uv-local-badge">
               {{ item.value >= 3 ? 'Hoge UV - Smeer zonnebrand!' : 'Veilige UV-waarde' }}
             </span>
           </mat-card-content>
         </mat-card>
       </div>
+      
     </div>
-
-    <!-- Indien de lijst leeg is -->
-    <mat-card *ngIf="!data.msg && data.list.length === 0" class="uv-empty-card">
-      <mat-card-content>
-        Geen zonkrachtgegevens beschikbaar.
-      </mat-card-content>
-    </mat-card>
   </div>
 
-  <!-- 3. Laden melding via de publieke loc$ stream -->
   <ng-template #loading>
-    <mat-card class="uv-loading-card">
-      <mat-card-content>
-        <p>UV-gegevens ophalen voor <strong>{{ loc$ | async }}</strong>...</p>
+    <mat-card *ngIf="loc$ | async as city">
+      <mat-card-content class="text-center-loading">
+        UV-gegevens ophalen voor <strong>{{ city }}</strong>...
       </mat-card-content>
     </mat-card>
   </ng-template>
 
-  <!-- 4. Invoersectie -->
-  <mat-card class="input-card">
-    <mat-card-header>
-      <mat-card-title>Signaal versturen vanaf UV-Score</mat-card-title>
-    </mat-card-header>
-    
-    <mat-card-content class="form-card-content">
-      <mat-form-field appearance="outline">
-        <mat-label>Invoer voor Child Service</mat-label>
-        <input 
-          matInput 
-          id="c3Input"
-          title="Bericht invoerveld voor Child 3"
-          name="c3Input"
-          [(ngModel)]="ChildInvoerModel" 
-          [ngModelOptions]="{standalone: true}"
-          placeholder="Typ iets..."
-          (keyup.enter)="onChildInvoer()">
-      </mat-form-field>
-      
-      <button 
-        mat-raised-button 
-        color="primary"
-        (click)="onChildInvoer()"
-        [disabled]="!ChildInvoerModel.trim()">
-        Versturen
-      </button>
-    </mat-card-content>
-  </mat-card>
 </div>

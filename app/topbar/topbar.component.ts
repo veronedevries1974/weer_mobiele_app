@@ -3,10 +3,8 @@ import { Store } from '@ngrx/store';
 import { NgForm, FormsModule } from '@angular/forms'; 
 import { Observable } from 'rxjs';
 import { CommonModule, AsyncPipe } from '@angular/common'; 
-import { setLocation, selectCity } from '../location-reducer'; 
-import { WeatherService } from '../weather.service'; 
+import { loadLocation, selectCity } from '../location-reducer'; 
 
-// Angular Material Components
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,        
   imports: [
     CommonModule, 
-    AsyncPipe,
+    AsyncPipe, 
     FormsModule, 
     MatFormFieldModule, 
     MatInputModule, 
@@ -29,35 +27,19 @@ export class TopBarComponent {
   public loc: string = '';
   public cityName$: Observable<string>; 
 
-  constructor(
-    private store: Store, 
-    private weatherService: WeatherService
-  ) { 
+  constructor(private store: Store) { 
+    // Haal de actuele stadsnaam live op uit de NgRx store
     this.cityName$ = this.store.select(selectCity);
   }
 
   public search(searchForm: NgForm): void { 
     if (searchForm.invalid || !this.loc.trim()) return; 
     
-    const gezochteStad = this.loc.trim();
-
-    // DEZE REGEL IS GEFIXED: Geen hardcoded URLs meer op regel 69!
-    this.weatherService.getCompleteWeather(gezochteStad).subscribe({
-      next: (weatherData) => {
-        this.store.dispatch(setLocation({ 
-          city: weatherData.name, 
-          lat: weatherData.current?.temperature || 0, 
-          lon: 0 
-        }));
-        
-        this.loc = '';
-        searchForm.resetForm();
-      },
-      error: (err) => {
-        // Hier kwam je foutmelding vandaan:
-        console.error('Fout bij ophalen locatie via TopBar:', err);
-        alert(`Kon locatie "${gezochteStad}" niet vinden. Probeer het opnieuw.`);
-      }
-    });
+    // Trigger de actie richting het NgRx Effect
+    this.store.dispatch(loadLocation({ cityName: this.loc.trim() }));
+    
+    // Reset het invoerveld en de formulierstatus
+    this.loc = '';
+    searchForm.resetForm();
   }
 }

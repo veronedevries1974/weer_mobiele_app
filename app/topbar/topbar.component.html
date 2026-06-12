@@ -1,12 +1,12 @@
 <header class="top-bar-wrapper">
-  <!-- Logo sectie met de actieve stadsnaam -->
   <div class="logo">
-    <!-- GEFIXED: cityName() vervangen door cityName$ | async -->
-    <h2>🌤️ WeerApp <span *ngIf="cityName$ | async as city">- {{ city }}</span></h2>
+    <h2>
+      <span class="app-icon">🌤️</span> WeerApp 
+      <span *ngIf="cityName$ | async as city" class="current-location">- {{ city }}</span>
+    </h2>
   </div>
 
-  <!-- Zoekformulier met Angular Material styling -->
-  <form #searchForm="ngForm" (ngSubmit)="search(searchForm)" novalidate>
+  <form #searchForm="ngForm" (ngSubmit)="searchForm.valid && search(searchForm)" novalidate>
     <div class="form-layout">
       
       <mat-form-field appearance="outline" class="search-field">
@@ -14,12 +14,12 @@
         <input 
           matInput 
           id="locationInput"
-          title="Invoerveld voor het zoeken naar een stad of locatie"
-          name="locationInput" 
+          name="location" 
           [(ngModel)]="loc" 
-          [ngModelOptions]="{standalone: true}"
           required 
-          autocomplete="off" />
+          autocomplete="off"
+          placeholder="bijv. Amsterdam, Parijs" 
+          title="Invoerveld voor het zoeken naar een stad of locatie" />
       </mat-form-field>
       
       <button 
@@ -29,7 +29,7 @@
         [disabled]="searchForm.invalid">
         Zoeken
       </button>
-
+      
     </div>
   </form>
 </header>

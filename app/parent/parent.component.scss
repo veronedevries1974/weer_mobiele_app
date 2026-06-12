@@ -1,6 +1,105 @@
-.main-container { max-width: 900px; margin: 0 auto; padding: 15px; width: 100%; box-sizing: border-box; }
-.welcome-section { text-align: center; padding: 20px 0; .welcome-content { display: block !important; padding: 40px 20px !important; h1 { color: #2c3e50; font-weight: bold; } p { color: #7f8c8d; } } }
-.location-header { text-align: center; margin-bottom: 25px; h1 { font-size: 2.2rem; font-weight: 800; color: #2c3e50; margin: 0; } }
-ion-segment { margin-bottom: 20px; background: #ffffff !important; border-radius: 12px !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important; padding: 4px; border: 1px solid #f0f3f4; }
-ion-segment-button { --color: #555555; --color-checked: darkolivegreen; --indicator-color: rgba(85, 107, 47, 0.15); font-weight: 600; }
-.signals-card { margin-top: 20px; .signals-content { text-align: center; display: block !important; padding: 20px !important; h2 { margin: 0; strong { color: darkolivegreen; } } .placeholder-text { color: #7f8c8d; font-style: italic; } hr { margin: 20px 0; border: 0; border-top: 1px solid #e2e8f0; } .badge-container { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; .custom-badge-btn { border: none; cursor: pointer; padding: 8px 16px; font-size: 0.85rem; font-weight: bold; border-radius: 20px; transition: transform 0.2s ease; &:hover { transform: scale(1.05); } } } } }
+.main-container { 
+  max-width: 900px; 
+  margin: 0 auto; 
+  padding: 15px; 
+  width: 100%; 
+  box-sizing: border-box; 
+}
+
+.welcome-section { 
+  text-align: center; 
+  padding: 20px 0; 
+  
+  .welcome-content { 
+    display: block !important; 
+    padding: 40px 20px !important; 
+    
+    h1 { 
+      color: #2c3e50; 
+      font-weight: bold; 
+    } 
+    p { 
+      color: #7f8c8d; 
+    } 
+  } 
+}
+
+.location-header { 
+  text-align: center; 
+  margin-bottom: 25px; 
+  
+  h1 { 
+    font-size: 2.2rem; 
+    font-weight: 800; 
+    color: #2c3e50; 
+    margin: 0; 
+  } 
+}
+
+ion-segment { 
+  margin-bottom: 20px; 
+  background: #ffffff !important; 
+  border-radius: 12px !important; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important; 
+  padding: 4px; 
+  border: 1px solid #f0f3f4; 
+}
+
+ion-segment-button { 
+  --color: #555555; 
+  --color-checked: darkolivegreen; 
+  --indicator-color: rgba(85, 107, 47, 0.15); 
+  font-weight: 600; 
+}
+
+.sub-page-outlet { 
+  display: block; 
+  margin-top: 10px; 
+}
+
+.signals-card { 
+  margin-top: 20px; 
+  
+  .signals-content { 
+    text-align: center; 
+    display: block !important; 
+    padding: 20px !important; 
+    
+    h2 { 
+      margin: 0; 
+      strong { 
+        color: darkolivegreen; 
+      } 
+    } 
+    .placeholder-text { 
+      color: #7f8c8d; 
+      font-style: italic; 
+    } 
+    hr { 
+      margin: 20px 0; 
+      border: 0; 
+      border-top: 1px solid #e2e8f0; 
+    } 
+    
+    .badge-container { 
+      display: flex; 
+      gap: 10px; 
+      justify-content: center; 
+      flex-wrap: wrap; 
+      
+      .custom-badge-btn { 
+        border: none; 
+        cursor: pointer; 
+        padding: 8px 16px; 
+        font-size: 0.85rem; 
+        font-weight: bold; 
+        border-radius: 20px; 
+        transition: transform 0.2s ease; 
+        
+        &:hover { 
+          transform: scale(1.05); 
+        } 
+      } 
+    } 
+  } 
+}

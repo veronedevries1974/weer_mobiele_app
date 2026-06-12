@@ -2,20 +2,33 @@
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100dvh; /* Dynamic Viewport Height voorkomt dat elementen op mobiel buiten beeld vallen */
+  width: 100%;
   background-color: lightgoldenrodyellow;
+  box-sizing: border-box;
+  overflow: hidden; /* Voorkomt dat de hele pagina dubbel scrolt */
 }
 
 /* --- SECTIE OVERGANGEN (OLIJFGROEN) --- */
 .topbar-section {
+  z-index: 10; /* Zorgt dat de zoekbalk altijd bovenop ligt en direct klikbaar is */
+  position: relative;
   background-color: darkolivegreen;
   padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .navigation-section {
+  z-index: 9; /* Houdt de menuknoppen boven de contentlaag */
+  position: relative;
   background-color: darkolivegreen;
   padding: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
 
   ul {
     display: flex;
@@ -31,6 +44,7 @@
         font-weight: bold;
         padding-bottom: 4px;
         transition: color 0.2s ease;
+        cursor: pointer; /* Garandeert de hand-cursor bij hover */
 
         &:hover {
           color: white;
@@ -42,14 +56,38 @@
 
 /* --- HOOFDINHOUD EN ROUTER-OUTLET --- */
 .main-content-section {
+  z-index: 1; /* Ligt onder de navigatie- en topbarlagen */
+  position: relative;
   flex: 1;
   padding: 20px;
   box-sizing: border-box;
   width: 100%;
+  overflow-y: auto; /* Zorgt ervoor dat alléén de inhoud van de weerschermen scrolt */
+  -webkit-overflow-scrolling: touch; /* Vloeiende scrollervaring op iOS/Capacitor */
 }
 
 /* --- RECENT ACTIEVE MENULINK INDICATOR --- */
 .active-link {
   border-bottom: 2px solid lightgoldenrodyellow;
   color: white !important;
+}
+
+/* --- FOOTER SECTIE FLEXBOX INTEGRATIE --- */
+.footer-section {
+  z-index: 10;
+  display: block;
+  width: 100%;
+  flex-shrink: 0; /* Voorkomt inklappen van de footer bij lange tabellen of grids */
+}
+
+/* --- RESPONSIVE LOOK VOOR MOBIEL (CAPACITOR) --- */
+@media (max-width: 600px) {
+  .navigation-section ul {
+    justify-content: space-around;
+    gap: 10px;
+    
+    li a {
+      font-size: 0.9rem;
+    }
+  }
 }

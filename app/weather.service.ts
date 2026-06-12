@@ -9,8 +9,8 @@ export class WeatherService {
   constructor(private http: HttpClient) {}
 
   public getCompleteWeather(loc: string): Observable<any> {
-    // GEFIXED: Let op de ` en de ${...} structuur
-    const geoUrl = `https://open-meteo.com{encodeURIComponent(loc)}&count=1&language=nl`;
+    // Correcte Open-Meteo Geocoding API endpoint
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(loc)}&count=1&language=nl&format=json`;
 
     return this.http.get<any>(geoUrl).pipe(
       switchMap((geoRes: any) => {
@@ -18,15 +18,16 @@ export class WeatherService {
           return throwError(() => new Error(`Locatie "${loc}" niet gevonden.`));
         }
         
-        const city = geoRes.results[0];
-        
-        // GEFIXED: Let op de ` en de ${...} structuur voor de breedte- en lengtegraad
-        const weatherUrl = `https://open-meteo.com{city.latitude}&longitude=${city.longitude}&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&timezone=auto`;
+        const city = geoRes.results[0]; // .at(0) vervangen voor bredere browser-ondersteuning
+        // Correcte Open-Meteo Forecast API endpoint
+        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${city.latitude}&longitude=${city.longitude}&current=temperature_2m,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&timezone=auto`;
 
         return this.http.get<any>(weatherUrl).pipe(
           map((weatherRes: any) => {
             return {
               name: city.name,
+              lat: city.latitude,
+              lon: city.longitude,
               current: {
                 temperature: weatherRes.current?.temperature_2m,
                 windspeed: weatherRes.current?.wind_speed_10m,

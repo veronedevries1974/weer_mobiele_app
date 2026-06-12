@@ -1,6 +1,5 @@
 <div class="child-container">
   
-  <!-- 1. Weerdata Tabel -->
   <div *ngIf="weatherData$ | async as data; else loadingOrError" class="forecast-wrapper">
     <mat-card>
       <mat-card-header>
@@ -22,33 +21,12 @@
     </mat-card>
   </div>
 
-  <!-- 2. Loading Template -->
   <ng-template #loadingOrError>
-    <mat-card class="loading-card">
-      <mat-card-content>
-        Weergegevens ophalen voor <strong>{{ loc$ | async }}</strong>...
+    <mat-card class="loading-card" *ngIf="loc$ | async as city">
+      <mat-card-content class="text-center-loading">
+        Weergegevens ophalen voor <strong>{{ city }}</strong>...
       </mat-card-content>
     </mat-card>
   </ng-template>
 
-  <!-- 3. Signaal Invoerkaart -->
-  <mat-card class="input-card">
-    <mat-card-header>
-      <mat-card-title>Signaal of bericht versturen</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="form-card-content">
-      <mat-form-field appearance="outline">
-        <mat-label>Typ uw bericht...</mat-label>
-        <input 
-          matInput 
-          id="c1Input"
-          title="Bericht invoerveld voor Child 1"
-          name="c1Input" 
-          [(ngModel)]="ChildInvoerModel" 
-          [ngModelOptions]="{standalone: true}" 
-          (keyup.enter)="onChildInvoer()">
-      </mat-form-field>
-      <button mat-raised-button color="primary" (click)="onChildInvoer()" [disabled]="!ChildInvoerModel.trim()">Verstuur</button>
-    </mat-card-content>
-  </mat-card>
 </div>

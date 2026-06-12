@@ -1,19 +1,33 @@
 <ion-app>
   <div class="app-container">
-    <div class="topbar-section">
+    
+    <!-- Topbar sectie -->
+    <header class="topbar-section">
       <app-topbar></app-topbar>
-    </div>
-    <div class="navigation-section"> 
+    </header>
+    
+    <!-- Hoofdnavigatie (Slashes verwijderd voor correcte child-routing) -->
+    <nav class="navigation-section"> 
       <ul> 
-        <li><a routerLink="/child1" routerLinkActive="active-link">Huidig weer</a></li> 
-        <li><a routerLink="/child2" routerLinkActive="active-link">Toekomstig weer</a></li>
-        <li><a routerLink="/child3" routerLinkActive="active-link">UV-score</a></li> 
-        <li><a routerLink="/child4" routerLinkActive="active-link">Pagina</a></li>
+        <li>
+          <a routerLink="child1" routerLinkActive="active-link">Huidig weer</a>
+        </li> 
+        <li>
+          <a routerLink="child2" routerLinkActive="active-link">Toekomstig weer</a>
+        </li>
+        <li>
+          <a routerLink="child3" routerLinkActive="active-link">UV-score</a>
+        </li>
       </ul>
-    </div>
-    <div class="main-content-section">
+    </nav>
+    
+    <!-- Dynamische hoofdcontent (Hier wordt ParentComponent ingeladen) -->
+    <main class="main-content-section">
       <ion-router-outlet></ion-router-outlet>
-    </div>
-    <app-footer></app-footer>
+    </main>
+    
+    <!-- Footer sectie met de juiste SCSS klasse koppeling -->
+    <app-footer class="footer-section"></app-footer>
+    
   </div>
 </ion-app>

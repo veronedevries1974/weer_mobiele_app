@@ -1,18 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, switchMap, tap, distinctUntilChanged } from 'rxjs/operators';
-import { selectCity } from '../location-reducer';
-import { WeatherService } from '../weather.service';
-import { ChildService } from '../child.service'; 
+import { Component, OnInit, inject } from '@angular/core'; 
+import { Store } from '@ngrx/store'; 
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { selectCity, selectCurrentWeather, selectDailyWeather } from '../location-reducer';
 
-// Angular Material & Core Imports
 import { CommonModule, AsyncPipe, DecimalPipe, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card'; 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-child1',
@@ -24,40 +17,31 @@ import { FormsModule } from '@angular/forms';
     AsyncPipe, 
     DecimalPipe, 
     DatePipe, 
-    MatCardModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatButtonModule, 
-    FormsModule
+    MatCardModule
   ] 
 })
 export class Child1Component implements OnInit {
-  weatherData$: Observable<any> | undefined;
-  loc$: Observable<string>; 
-  ChildInvoerModel: string = '';
-  actieveStad: string = '';
+  private store = inject(Store);
 
-  constructor(private store: Store, private weatherService: WeatherService, private childService: ChildService) {
-    this.loc$ = this.store.select(selectCity);
-  }
+  public weatherData$: Observable<any> | undefined;
+  public loc$: Observable<string> = this.store.select(selectCity); 
+
+  constructor() {}
 
   ngOnInit(): void {
-    this.weatherData$ = this.loc$.pipe(
-      filter(city => !!city && city.trim() !== ''),
-      distinctUntilChanged(),
-      tap(city => this.actieveStad = city),
-      switchMap(city => this.weatherService.getCompleteWeather(city))
+    this.weatherData$ = combineLatest([
+      this.loc$,
+      this.store.select(selectCurrentWeather),
+      this.store.select(selectDailyWeather)
+    ]).pipe(
+      map(([name, current, daily]) => {
+        if (!name || !current || !daily) return null;
+        return { name, current, daily };
+      })
     );
   }
 
-  onChildInvoer(): void {
-    if (this.ChildInvoerModel.trim()) {
-      this.childService.onChildInvoerCreated(this.ChildInvoerModel);
-      this.ChildInvoerModel = '';
-    }
-  }
-
-  parseDate(dateStr: string): Date {
+  public parseDate(dateStr: string): Date {
     return dateStr ? new Date(dateStr) : new Date();
   }
 }

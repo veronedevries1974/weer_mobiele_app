@@ -1,5 +1,6 @@
-<div class="main-container"> 
-  <!-- Welkomscherm -->
+  <div class="main-container"> 
+  
+  <!-- Welkomscherm (wanneer er nog GEEN stad is gekozen/gezocht) -->
   <div *ngIf="!cityName()" class="welcome-section"> 
     <mat-card>
       <mat-card-content class="welcome-content">
@@ -9,44 +10,43 @@
     </mat-card>
   </div> 
 
-  <!-- Dashboard Container -->
+  <!-- Dashboard Container (wanneer er WEL een stad is gekozen) -->
   <div *ngIf="cityName()">
     <header class="location-header">
       <h1>Weer Dashboard voor {{ cityName() }}</h1>
     </header>
 
+    <!-- GECORRIGEERD: Ionic Segment Schakelaar gekoppeld aan de actieve router-status -->
     <ion-segment [value]="activeTab">
       <ion-segment-button value="child1" routerLink="child1">
-        <ion-label>Huidig weer</ion-label>
+        <ion-label>Huidig</ion-label>
       </ion-segment-button>
       <ion-segment-button value="child2" routerLink="child2">
-        <ion-label>Toekomstig weer</ion-label>
-       </ion-segment-button>
-      <ion-segment-button value="child3" routerLink="child3">
-        <ion-label>UV-index</ion-label>
+        <ion-label>Toekomst</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="child4" routerLink="child4">
-        <ion-label>Signalen</ion-label>
+      <ion-segment-button value="child3" routerLink="child3">
+        <ion-label>UV-Score</ion-label>
       </ion-segment-button>
     </ion-segment>
 
+    <!-- Dynamische subpagina-outlet (Hier landen Child1, Child2 en Child3) -->
     <main class="sub-page-outlet">
+      <!-- CRUCIAAL: Deze ion-router-outlet laadt de daadwerkelijke weerpagina's in -->
       <ion-router-outlet></ion-router-outlet>
     </main>
+
+    <!-- Extra info card onderaan (gebaseerd op je .signals-card styling) -->
+    <mat-card class="signals-card">
+      <mat-card-content class="signals-content">
+        <h2>Live updates voor <strong>{{ cityName() }}</strong></h2>
+        <p class="placeholder-text">Gegevens worden direct verwerkt via NgRx Signals</p>
+        <hr />
+        <div class="badge-container">
+          <button class="custom-badge-btn badge-success">Verversen</button>
+          <button class="custom-badge-btn badge-warning">Favoriet ⭐</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  <!-- Signatentracker -->
-  <mat-card class="signals-card" *ngIf="cityName()">
-    <mat-card-header><mat-card-title>Laatste signaal uit ChildService</mat-card-title></mat-card-header>
-    <mat-card-content class="signals-content">
-      <h2 *ngIf="invoer(); else geenBericht">Ontvangen tekst: <strong>"{{ invoer() }}"</strong></h2>
-      <ng-template #geenBericht><p class="placeholder-text">Nog geen handmatige invoer verzonden.</p></ng-template>
-      <hr />
-      <div class="badge-container">
-        <button *ngFor="let item of invoerWaarde(); let i = index" (click)="onChildInvoerDeleted(i)" class="badge-danger custom-badge-btn">
-          {{ item }} ×
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
 </div>

@@ -1,14 +1,12 @@
 <div class="child-container">
   
-  <!-- 1. Weerdata Tabel via de asynchrone forecastData$ stream -->
   <div *ngIf="forecastData$ | async as data; else loading" class="forecast-wrapper"> 
-    
-    <!-- Wordt getoond als er een geldige voorspellingslijst is -->
     <mat-card *ngIf="data.list && data.list.length > 0">
       <mat-card-header>
         <mat-card-title>7-daagse voorspelling voor {{ data.cityName }}</mat-card-title>
       </mat-card-header>
       <mat-card-content class="table-card-content">
+        
         <table class="weather-table intermediate-forecast-table"> 
           <thead>
             <tr class="table-header-row">
@@ -28,52 +26,28 @@
                 </span>
               </td>
               <td class="text-right">
-                <span [ngClass]="{'badge-success': day.uv <= 2, 'badge-warning': day.uv > 2 && day.uv <= 5, 'badge-danger': day.uv > 5}">
+                <span [ngClass]="{
+                  'badge-success': day.uv <= 2, 
+                  'badge-warning': day.uv > 2 && day.uv <= 5, 
+                  'badge-danger': day.uv > 5
+                }">
                   {{ day.uv ?? '-' }}
                 </span>
               </td>
             </tr>
           </tbody> 
         </table> 
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Foutmelding indien de API faalt -->
-    <mat-card *ngIf="data.msg || data.list.length === 0">
-      <mat-card-content class="error-message">
-        {{ data.msg || 'Geen weersgegevens beschikbaar.' }}
+        
       </mat-card-content>
     </mat-card>
   </div> 
 
-  <!-- 2. Universele Loading Template -->
   <ng-template #loading>
-    <mat-card class="loading-card">
-      <mat-card-content>
-        Weergegevens ophalen voor <strong>{{ loc$ | async }}</strong>...
+    <mat-card *ngIf="loc$ | async as city">
+      <mat-card-content class="text-center-loading">
+        Weergegevens ophalen voor <strong>{{ city }}</strong>...
       </mat-card-content>
     </mat-card>
   </ng-template>
 
-  <!-- 3. Invoersectie (Signaal versturen) -->
-  <mat-card class="input-card">
-    <mat-card-header>
-      <mat-card-title>Signaal versturen vanaf Toekomstig Weer</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="form-card-content">
-      <mat-form-field appearance="outline">
-        <mat-label>Invoer voor Child Service</mat-label>
-        <input 
-          matInput 
-          id="c2Input"
-          title="Bericht invoerveld voor Child 2"
-          name="c2Input"
-          [(ngModel)]="ChildInvoerModel" 
-          [ngModelOptions]="{standalone: true}"
-          placeholder="Typ iets..."
-          (keyup.enter)="onChildInvoer()">
-      </mat-form-field>
-      <button mat-raised-button color="primary" (click)="onChildInvoer()" [disabled]="!ChildInvoerModel.trim()">Versturen</button>
-    </mat-card-content>
-  </mat-card>
 </div>

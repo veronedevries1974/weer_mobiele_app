@@ -1,9 +1,70 @@
-.child-container { display: block; width: 100%; }
-h4 { color: #2c3e50; font-weight: 700; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
-mat-card-content { display: flex !important; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 15px; padding-top: 10px; }
-mat-form-field { flex: 1; min-width: 240px; }
-button[mat-raised-button] { height: 56px; padding: 0 25px; font-weight: bold; }
-.weather-table { width: 100%; border-collapse: collapse; margin-top: 5px;
-  tr { border-bottom: 1px solid #f0f0f0; &:last-child { border-bottom: none; } }
-  td { padding: 12px 4px; color: #2c3e50; font-size: 1rem; &:last-child { text-align: right; } }
+.child-container { 
+  display: block; 
+  width: 100%; 
+}
+
+.grid-title { 
+  font-size: 1.4rem; 
+  font-weight: 700; 
+  color: #2c3e50; 
+  margin: 0 0 20px 0; 
+}
+
+.uv-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+  gap: 16px; 
+  margin-bottom: 25px; 
+}
+
+.uv-day-card { 
+  background: #ffffff !important; 
+  border-radius: 12px !important; 
+  border: 1px solid #e2e8f0; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02) !important;
+  
+  .card-date { 
+    font-size: 1rem; 
+    font-weight: 600; 
+    color: #7f8c8d; 
+    text-transform: capitalize; 
+  }
+}
+
+.card-score-content { 
+  display: flex !important; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  text-align: center; 
+  padding: 15px 20px 20px 20px !important;
+  
+  .score-number { 
+    font-size: 3rem; 
+    font-weight: 800; 
+    color: #2c3e50; 
+    margin: 0 0 12px 0; 
+  }
+}
+
+.uv-local-badge { 
+  display: inline-block; 
+  padding: 6px 12px; 
+  font-size: 0.8rem; 
+  font-weight: 700; 
+  border-radius: 20px; 
+  color: #ffffff; 
+  width: 100%; 
+  box-sizing: border-box; 
+}
+
+.badge-success { background-color: #2ecc71 !important; }
+.badge-warning { background-color: #f39c12 !important; }
+.badge-danger  { background-color: #e74c3c !important; }
+
+.text-center-loading {
+  display: block !important;
+  text-align: center;
+  color: #7f8c8d;
+  width: 100%;
 }
