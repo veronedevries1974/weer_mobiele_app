@@ -27,7 +27,6 @@ export class ParentComponent implements OnInit {
   private store = inject(Store);
   private router = inject(Router);
 
-  // Grijpt de buitenkant van de parent-component vast in de HTML
   @ViewChild('scrollTarget', { static: false }) scrollTarget!: ElementRef;
 
   cityName = toSignal(this.store.select(selectCity));
@@ -41,7 +40,6 @@ export class ParentComponent implements OnInit {
     ).subscribe((event: NavigationEnd) => {
       this.updateActiveTab(event.url);
       
-      // FUNCTIE: Zodra de tab wisselt, scrolt de parent-container direct soepel in beeld
       setTimeout(() => {
         if (this.scrollTarget) {
           this.scrollTarget.nativeElement.scrollIntoView({ 
@@ -49,7 +47,7 @@ export class ParentComponent implements OnInit {
             block: 'start' 
           });
         }
-      }, 50); // Kleine micro-timeout om de nieuwe child-DOM de tijd te geven om te laden
+      }, 50);  
     });
   }
 

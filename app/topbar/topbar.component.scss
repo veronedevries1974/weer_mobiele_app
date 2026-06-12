@@ -5,7 +5,7 @@
   width: 100%; 
   box-sizing: border-box; 
   padding: 10px 20px; 
-  background-color: #556b2f; // Jouw olijfgroene themakleur
+  background-color: #556b2f; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
   .logo h2 { 
@@ -19,7 +19,7 @@
 
     .current-location {
       font-weight: normal;
-      color: #fafad2; // Jouw zachtgele secundaire themakleur
+      color: #fafad2; 
     }
   }
 
@@ -31,7 +31,6 @@
       align-items: center; 
       gap: 10px;
 
-      // Verbergt de witruimte onder het Angular Material inputveld (voor validatiefouten)
       ::ng-deep .mat-mdc-form-field-subscript-wrapper { 
         display: none; 
       }
@@ -39,7 +38,6 @@
       .search-field { 
         width: 240px;
 
-        // Diepe CSS-overrides om de Material styling aan te passen aan de donkere toolbarachtergrond
         ::ng-deep {
           .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
           .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
@@ -65,7 +63,7 @@
 
       .search-button { 
         height: 48px !important; 
-        background-color: #2c3e50 !important; // Donkerblauwe contrastknop
+        background-color: #2c3e50 !important; 
         color: white !important; 
         font-weight: bold;
         border-radius: 4px;
@@ -79,7 +77,7 @@
   }
 }
 
-// Mobiele optimalisatie voor de topbar
+
 @media (max-width: 600px) {
   .top-bar-wrapper {
     flex-direction: column;

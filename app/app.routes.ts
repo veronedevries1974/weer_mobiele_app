@@ -6,10 +6,10 @@ export const routes: Routes = [
     path: '',
     component: ParentComponent,
     children: [
-      // Stuurt de gebruiker bij een lege URL direct door naar het huidige weer
+  
       { path: '', redirectTo: 'child1', pathMatch: 'full' },
       
-      // De subsecties worden ingeladen zodra de gebruiker erop klikt (Lazy Loading)
+  
       { 
         path: 'child1', 
         loadComponent: () => import('./child1/child1.component').then(m => m.Child1Component) 
@@ -24,6 +24,6 @@ export const routes: Routes = [
       }
     ]
   },
-  // Fallback: onbekende URL's worden teruggestuurd naar het hoofd-dashboard
+
   { path: '**', redirectTo: '' }
 ];

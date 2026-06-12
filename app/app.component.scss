@@ -1,17 +1,15 @@
-/* --- HOOFD LAYOUT VAN DE APPLICATIE --- */
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100dvh; /* Dynamic Viewport Height voorkomt dat elementen op mobiel buiten beeld vallen */
+  height: 100dvh; 
   width: 100%;
   background-color: lightgoldenrodyellow;
   box-sizing: border-box;
-  overflow: hidden; /* Voorkomt dat de hele pagina dubbel scrolt */
+  overflow: hidden; 
 }
 
-/* --- SECTIE OVERGANGEN (OLIJFGROEN) --- */
 .topbar-section {
-  z-index: 10; /* Zorgt dat de zoekbalk altijd bovenop ligt en direct klikbaar is */
+  z-index: 10; 
   position: relative;
   background-color: darkolivegreen;
   padding: 10px;
@@ -21,7 +19,7 @@
 }
 
 .navigation-section {
-  z-index: 9; /* Houdt de menuknoppen boven de contentlaag */
+  z-index: 9; 
   position: relative;
   background-color: darkolivegreen;
   padding: 10px;
@@ -44,7 +42,7 @@
         font-weight: bold;
         padding-bottom: 4px;
         transition: color 0.2s ease;
-        cursor: pointer; /* Garandeert de hand-cursor bij hover */
+        cursor: pointer; 
 
         &:hover {
           color: white;
@@ -54,33 +52,30 @@
   }
 }
 
-/* --- HOOFDINHOUD EN ROUTER-OUTLET --- */
 .main-content-section {
-  z-index: 1; /* Ligt onder de navigatie- en topbarlagen */
+  z-index: 1; 
   position: relative;
   flex: 1;
   padding: 20px;
   box-sizing: border-box;
   width: 100%;
-  overflow-y: auto; /* Zorgt ervoor dat alléén de inhoud van de weerschermen scrolt */
-  -webkit-overflow-scrolling: touch; /* Vloeiende scrollervaring op iOS/Capacitor */
+  overflow-y: auto; 
+  -webkit-overflow-scrolling: touch; 
 }
 
-/* --- RECENT ACTIEVE MENULINK INDICATOR --- */
 .active-link {
   border-bottom: 2px solid lightgoldenrodyellow;
   color: white !important;
 }
 
-/* --- FOOTER SECTIE FLEXBOX INTEGRATIE --- */
 .footer-section {
   z-index: 10;
   display: block;
   width: 100%;
-  flex-shrink: 0; /* Voorkomt inklappen van de footer bij lange tabellen of grids */
+  flex-shrink: 0; 
 }
 
-/* --- RESPONSIVE LOOK VOOR MOBIEL (CAPACITOR) --- */
+
 @media (max-width: 600px) {
   .navigation-section ul {
     justify-content: space-around;

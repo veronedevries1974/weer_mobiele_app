@@ -28,17 +28,15 @@ export class TopBarComponent {
   public cityName$: Observable<string>; 
 
   constructor(private store: Store) { 
-    // Haal de actuele stadsnaam live op uit de NgRx store
+  
     this.cityName$ = this.store.select(selectCity);
   }
 
   public search(searchForm: NgForm): void { 
     if (searchForm.invalid || !this.loc.trim()) return; 
-    
-    // Trigger de actie richting het NgRx Effect
+ 
     this.store.dispatch(loadLocation({ cityName: this.loc.trim() }));
     
-    // Reset het invoerveld en de formulierstatus
     this.loc = '';
     searchForm.resetForm();
   }

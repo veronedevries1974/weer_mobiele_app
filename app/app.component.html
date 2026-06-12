@@ -1,18 +1,15 @@
 <ion-app>
   <div class="app-container">
     
-    <!-- Groene Topbar wrapper met het logo en de zoeklocatie-balk -->
     <div class="topbar-section">
       <app-topbar></app-topbar>
     </div>
  
-    <!-- DYNAMIJSCH: Ingepakt in ion-content zodat de browser/Ionic begrijpt dat dit mag scrollen -->
     <ion-content class="main-content-section">
-      <!-- GEWIJZIGD: ion-router-outlet is vervangen door de standaard Angular router-outlet -->
+
       <router-outlet></router-outlet>
     </ion-content>
     
-    <!-- Footer onderaan de app -->
     <div class="footer-section">
       <app-footer></app-footer>
     </div>

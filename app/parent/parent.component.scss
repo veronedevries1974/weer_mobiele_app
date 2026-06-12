@@ -6,7 +6,7 @@
   width: 100%; 
   box-sizing: border-box; 
   display: block; 
-  overflow: visible; /* Garandeert dat de pagina meescrollt in de hoogte */
+  overflow: visible; 
 }
 
 /* --- WELKOMSCHERM (WANNEER GEEN LOCATIE GEKOZEN IS) --- */
@@ -54,11 +54,10 @@ ion-segment {
 ion-segment-button { 
   --color: #555555; 
   --color-checked: darkolivegreen; 
-  --color-activated: darkolivegreen; /* Gefixt: Zorgt voor de juiste geselecteerde tekstkleur */
+  --color-activated: darkolivegreen; 
   --indicator-color: rgba(85, 107, 47, 0.15); 
   font-weight: 600; 
 
-  /* Dwingt kleurverandering af binnen Ionic's Shadow-DOM */
   &.segment-button-checked ion-label {
     color: darkolivegreen !important;
   }
@@ -69,7 +68,7 @@ ion-segment-button {
   display: block; 
   margin-top: 10px; 
   height: auto; 
-  overflow: visible; /* Voorkomt een interne scrollbar, de hele pagina scrollt mee */
+  overflow: visible; 
 }
 
 /* --- LIVE SIGNALS UPDATE CARD ONDERAAN --- */

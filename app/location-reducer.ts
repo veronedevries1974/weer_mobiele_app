@@ -24,12 +24,12 @@ export interface LocationState {
   loading: boolean;
 }
 
-/* --- ACTIONS --- */
+
 export const loadLocation = createAction('[Location] Load Location', props<{ cityName: string }>());
 export const setLocation = createAction('[Location] Set Location', props<{ city: string; lat: number; lon: number; current: CurrentWeather; daily: DailyWeather }>());
 export const loadLocationFailed = createAction('[Location] Load Location Failed');
 
-/* --- INITIAL STATE --- */
+
 const initialState: LocationState = {
   city: '',
   lat: 0,
@@ -39,7 +39,7 @@ const initialState: LocationState = {
   loading: false
 };
 
-/* --- REDUCER --- */
+
 export const locationReducer = createReducer(
   initialState,
   on(loadLocation, (state) => ({ ...state, loading: true })),
@@ -47,7 +47,7 @@ export const locationReducer = createReducer(
   on(loadLocationFailed, (state) => ({ ...state, loading: false }))
 );
 
-/* --- SELECTORS --- */
+
 export const selectLocationFeature = createFeatureSelector<LocationState>('location');
 export const selectCity = createSelector(selectLocationFeature, (state) => state?.city || '');
 export const selectCurrentWeather = createSelector(selectLocationFeature, (state) => state?.current);
