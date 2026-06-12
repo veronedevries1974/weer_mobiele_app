@@ -1,11 +1,15 @@
+/* --- HOOFD DASHBOARD CONTAINER --- */
 .main-container { 
   max-width: 900px; 
   margin: 0 auto; 
   padding: 15px; 
   width: 100%; 
   box-sizing: border-box; 
+  display: block; 
+  overflow: visible; /* Garandeert dat de pagina meescrollt in de hoogte */
 }
 
+/* --- WELKOMSCHERM (WANNEER GEEN LOCATIE GEKOZEN IS) --- */
 .welcome-section { 
   text-align: center; 
   padding: 20px 0; 
@@ -24,6 +28,7 @@
   } 
 }
 
+/* --- DASHBOARD HEADER MET DE STADSNAAM --- */
 .location-header { 
   text-align: center; 
   margin-bottom: 25px; 
@@ -36,6 +41,7 @@
   } 
 }
 
+/* --- IONIC SEGMENT (MENUBALK IN DE BODY) --- */
 ion-segment { 
   margin-bottom: 20px; 
   background: #ffffff !important; 
@@ -48,15 +54,25 @@ ion-segment {
 ion-segment-button { 
   --color: #555555; 
   --color-checked: darkolivegreen; 
+  --color-activated: darkolivegreen; /* Gefixt: Zorgt voor de juiste geselecteerde tekstkleur */
   --indicator-color: rgba(85, 107, 47, 0.15); 
   font-weight: 600; 
+
+  /* Dwingt kleurverandering af binnen Ionic's Shadow-DOM */
+  &.segment-button-checked ion-label {
+    color: darkolivegreen !important;
+  }
 }
 
+/* --- SUBPAGINA ROUTER-OUTLET WRAPPER --- */
 .sub-page-outlet { 
   display: block; 
   margin-top: 10px; 
+  height: auto; 
+  overflow: visible; /* Voorkomt een interne scrollbar, de hele pagina scrollt mee */
 }
 
+/* --- LIVE SIGNALS UPDATE CARD ONDERAAN --- */
 .signals-card { 
   margin-top: 20px; 
   
@@ -67,6 +83,8 @@ ion-segment-button {
     
     h2 { 
       margin: 0; 
+      font-size: 1.3rem;
+      
       strong { 
         color: darkolivegreen; 
       } 
@@ -81,6 +99,7 @@ ion-segment-button {
       border-top: 1px solid #e2e8f0; 
     } 
     
+    /* BADGES (VERVERSEN & FAVORIET) */
     .badge-container { 
       display: flex; 
       gap: 10px; 

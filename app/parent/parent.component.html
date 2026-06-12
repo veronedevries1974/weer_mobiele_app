@@ -1,4 +1,7 @@
-  <div class="main-container"> 
+ <!-- GEWIJZIGD: #scrollTarget referentie toegevoegd -->
+<div #scrollTarget class="main-container"> 
+ 
+ <div class="main-container"> 
   
   <!-- Welkomscherm (wanneer er nog GEEN locatie is gezocht) -->
   <div *ngIf="!cityName()" class="welcome-section"> 
@@ -16,15 +19,15 @@
       <h1>Weer Dashboard voor {{ cityName() }}</h1>
     </header>
 
-    <!-- GEPLAATST IN BODY: De menuknoppen schakelen direct tussen de subpagina's -->
+    <!-- GEWIJZIGD: De '/' is verwijderd voor relatieve sub-routing binnen de parent -->
     <ion-segment [value]="activeTab">
-      <ion-segment-button value="child1" routerLink="/child1">
+      <ion-segment-button value="child1" routerLink="child1">
         <ion-label>Huidig</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="child2" routerLink="/child2">
+      <ion-segment-button value="child2" routerLink="child2">
         <ion-label>Toekomst</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="child3" routerLink="/child3">
+      <ion-segment-button value="child3" routerLink="child3">
         <ion-label>UV-Score</ion-label>
       </ion-segment-button>
     </ion-segment>

@@ -5,16 +5,17 @@
     <div class="topbar-section">
       <app-topbar></app-topbar>
     </div>
-    
-    <!-- VERWIJDERD: De navigatiebalk is hier weg, zodat de topbar rustig blijft -->
-    
-    <!-- Dynamische content sectie (Laadt direct de ParentComponent in) -->
-    <div class="main-content-section">
-      <ion-router-outlet></ion-router-outlet>
-    </div>
+ 
+    <!-- DYNAMIJSCH: Ingepakt in ion-content zodat de browser/Ionic begrijpt dat dit mag scrollen -->
+    <ion-content class="main-content-section">
+      <!-- GEWIJZIGD: ion-router-outlet is vervangen door de standaard Angular router-outlet -->
+      <router-outlet></router-outlet>
+    </ion-content>
     
     <!-- Footer onderaan de app -->
-    <app-footer class="footer-section"></app-footer>
+    <div class="footer-section">
+      <app-footer></app-footer>
+    </div>
     
   </div>
 </ion-app>

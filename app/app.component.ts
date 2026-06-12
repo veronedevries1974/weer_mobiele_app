@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { TopBarComponent } from './topbar/topbar.component';
+import { RouterOutlet } from '@angular/router'; // Toegevoegd voor <router-outlet>
+import { IonApp, IonContent } from '@ionic/angular/standalone'; // IonContent toegevoegd, IonRouterOutlet verwijderd
+import { TopBarComponent } from './topbar/topbar.component'; // Behoudt uw eigen Schrijfwijze (hoofdletter B)
 import { FooterComponent } from './footer/footer.component';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +13,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   imports: [
     CommonModule, 
     IonApp, 
-    IonRouterOutlet, 
-    TopBarComponent, 
-    FooterComponent, 
-    RouterLink, 
-    RouterLinkActive
+    IonContent,      // Toegevoegd voor <ion-content>
+    RouterOutlet,    // Toegevoegd voor <router-outlet>
+    TopBarComponent, // Uw originele TopBar component
+    FooterComponent
+    // IonRouterOutlet is hier volledig verwijderd
   ]
 })
 export class AppComponent {}
